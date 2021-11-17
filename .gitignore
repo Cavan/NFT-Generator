@@ -151,3 +151,8 @@ About
 
 # NFT Assets
 Assets/
+
+# env
+nft-env/
+# exclude other
+nftTracking/
