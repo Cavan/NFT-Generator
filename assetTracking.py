@@ -10,9 +10,18 @@ class AssetTracker:
         self.appLogger = AppLogger()
 
 
-    def checkNFTUniqueness(self):
+    def checkNFTUniqueness(self, current_traits, new_traits):
         # retrieve json file, and check new traits against all traits in file
-        pass
+        test_1 = current_traits
+        test_2 = new_traits
+
+        stopPoint = 2
+
+    def checkNFT_IDUniqueness(self, current_ids, new_id):
+        test_3 = current_ids
+        test_4 = new_id
+
+        stopPoint = 2
 
     def saveNFTTraits(self):
         # Check if new NFT's traits are unique
@@ -40,10 +49,18 @@ class AssetTracker:
             if path.exists(self.fileName):
                 with open(self.fileName, 'r') as file:
                     previous_json = json.load(file)
+                    # Make sure the NFT id is unique ...
+                    # and the traits_id is unique
+                    # if self.checkNFTUniqueness(previous_json, self.newTraits):
+                    #     nfts = previous_json + self.newTraits
+                    # else:
+                    #     # The 
+                    #     return
                     nfts = previous_json + self.newTraits
 
                 with open(self.fileName, 'w') as file:
                     json.dump(nfts, file, indent=4)
+            return True
         except Exception as err:
             exception_message = "Problem accessing file: {}".format(str(err))
             print(exception_message)
@@ -53,5 +70,5 @@ class AssetTracker:
             # There is no data to append to, so save the first entry
             with open(self.fileName, 'w') as file:
                     json.dump(self.newTraits, file, indent=4)
-
+            return True
 

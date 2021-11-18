@@ -1,6 +1,6 @@
 [
     {
-        "NFT_ID": 1582,
+        "NFT_ID": 4069,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -9,10 +9,11 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
     },
     {
-        "NFT_ID": 4587,
+        "NFT_ID": 4769,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -21,10 +22,11 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
     },
     {
-        "NFT_ID": 3188,
+        "NFT_ID": 2701,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -33,10 +35,11 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
     },
     {
-        "NFT_ID": 2271,
+        "NFT_ID": 2156,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -45,10 +48,11 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
     },
     {
-        "NFT_ID": 4142,
+        "NFT_ID": 4494,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -57,10 +61,11 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
     },
     {
-        "NFT_ID": 2735,
+        "NFT_ID": 2809,
         "face": 6,
         "body": 3,
         "eyebrows": 4,
@@ -69,6 +74,33 @@
         "glasses": 11,
         "hair": 17,
         "hat": 20,
-        "mouth": 5
+        "mouth": 5,
+        "traits_ID": 6341221117205
+    },
+    {
+        "NFT_ID": 2672,
+        "face": 6,
+        "body": 3,
+        "eyebrows": 4,
+        "eyes": 12,
+        "facialhair": 2,
+        "glasses": 11,
+        "hair": 17,
+        "hat": 20,
+        "mouth": 5,
+        "traits_ID": 6341221117205
+    },
+    {
+        "NFT_ID": 4053,
+        "face": 6,
+        "body": 3,
+        "eyebrows": 4,
+        "eyes": 12,
+        "facialhair": 2,
+        "glasses": 11,
+        "hair": 17,
+        "hat": 20,
+        "mouth": 5,
+        "traits_ID": 6341221117205
     }
 ]
