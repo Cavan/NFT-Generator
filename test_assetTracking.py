@@ -8,9 +8,13 @@ class TestAssetTracker(unittest.TestCase):
    
     def setUp(self):
         
+        self.fileName = "nftTracking/NFT_tracking.json"
+
         # Store new ID
         self.nftID = randint(1000, 5000)
         self.unique_nftID = randint(1000, 5000)
+        self.unique_traitsID = randint(1000000000000, 7000000000000)
+        self.stored_NFT_data = self.get_NFT_data()
         self.testTraitsList = [
             {
                 "NFT_ID":self.nftID, 
@@ -47,22 +51,48 @@ class TestAssetTracker(unittest.TestCase):
         pass
     
     def test_checkNFTUniquenessFails(self):
-        self.assertFalse(self.testTracker.checkNFTUniqueness(self.testTraitsList, self.testTraitsList))
+        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data[0], self.testTraitsList[0])
+        self.assertFalse(result)
     
     def test_checkNFTUniquenessPasses(self):
-        self.assertTrue(self.testTracker.checkNFTUniqueness(self.testTraitsList, self.testTraitsList))
+        unique_traits_dict = self.testTraitsList[0].copy()
+        unique_traits_dict["traits_ID"] = self.unique_traitsID
+
+        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data[0], unique_traits_dict)
+        self.assertTrue(result)
 
     def test_NFT_id_UniquesnessFails(self):
-        pass
+        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data[0], self.unique_nftID)
+        self.assertFalse(result)
 
     def test_NFT_id_UniquenessPasses(self):
-        pass 
+        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data[0],self.unique_nftID)
+        self.assertTrue(result) 
 
+    
+    # Helper methods
+    
     def test_saveNFTdata(self):
         resultValue = self.testTracker.saveNFTdata()
         self.assertTrue(resultValue)
 
-    
+    def get_NFT_data(self):
+        try:
+            if path.exists(self.fileName):
+                with open(self.fileName, 'r') as file:
+                    previous_json = json.load(file)
+                    
+            return previous_json
+        except Exception as err:
+            exception_message = "Problem accessing file: {}".format(str(err))
+            print(exception_message)
+            # The exception was thrown due to trying to read an empty file
+            # There is no data to append to, so save the first entry
+            with open(self.fileName, 'w') as file:
+                    json.dump(self.newTraits, file, indent=4)
+            return self.newTraits
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -10,13 +10,15 @@ class AssetTracker:
         self.appLogger = AppLogger()
 
 
-    def checkNFTUniqueness(self, current_traits, new_traits):
+    def checkNFTUniqueness(self, current_traits: dict, new_traits: dict) -> bool:
         # retrieve json file, and check new traits against all traits in file
-        test_1 = current_traits
-        test_2 = new_traits
-
-        stopPoint = 2
-
+        for key in current_traits:
+            if current_traits["traits_ID"] == new_traits["traits_ID"]:
+                return False
+        # No match was found, so the traits are unique ...
+        # return True
+        return True
+       
     def checkNFT_IDUniqueness(self, current_ids, new_id):
         test_3 = current_ids
         test_4 = new_id
