@@ -51,23 +51,34 @@ class TestAssetTracker(unittest.TestCase):
         pass
     
     def test_checkNFTUniquenessFails(self):
-        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data[0], self.testTraitsList[0])
+        numberOfEntries = len(self.stored_NFT_data)
+        rndIndex = randint(2, numberOfEntries)
+        traitsDict = self.stored_NFT_data.copy()
+        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data, self.stored_NFT_data[rndIndex])
         self.assertFalse(result)
     
     def test_checkNFTUniquenessPasses(self):
         unique_traits_dict = self.testTraitsList[0].copy()
         unique_traits_dict["traits_ID"] = self.unique_traitsID
 
-        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data[0], unique_traits_dict)
+        result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data, unique_traits_dict)
         self.assertTrue(result)
 
     def test_NFT_id_UniquesnessFails(self):
-        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data[0], self.unique_nftID)
+        numberOfEntries = len(self.stored_NFT_data)
+        randomIndex = randint(0, numberOfEntries)
+        nonUniqueID = self.stored_NFT_data[randomIndex]["NFT_ID"]
+        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data, nonUniqueID)
         self.assertFalse(result)
 
     def test_NFT_id_UniquenessPasses(self):
-        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data[0],self.unique_nftID)
+
+        result = self.testTracker.checkNFT_IDUniqueness(self.stored_NFT_data,self.unique_nftID)
         self.assertTrue(result) 
+
+    
+
+
 
     
     # Helper methods
