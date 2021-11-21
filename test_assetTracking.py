@@ -14,7 +14,6 @@ class TestAssetTracker(unittest.TestCase):
         self.nftID = randint(1000, 5000)
         self.unique_nftID = randint(1000, 5000)
         self.unique_traitsID = randint(1000000000000, 7000000000000)
-        self.stored_NFT_data = self.get_NFT_data()
         self.testTraitsList = [
             {
                 "NFT_ID":self.nftID, 
@@ -30,6 +29,8 @@ class TestAssetTracker(unittest.TestCase):
                 "traits_ID":None
                 
             }]
+        self.stored_NFT_data = self.get_NFT_data(self.testTraitsList)
+        
         # We are going to combine each trait value into ...
         # a trait_ID, before each NFT is generated we'll check to make sure
         # we're not producing an NFT with the same traits.
@@ -52,7 +53,7 @@ class TestAssetTracker(unittest.TestCase):
     
     def test_checkNFTUniquenessFails(self):
         numberOfEntries = len(self.stored_NFT_data)
-        rndIndex = randint(2, numberOfEntries)
+        rndIndex = randint(0, numberOfEntries)
         traitsDict = self.stored_NFT_data.copy()
         result = self.testTracker.checkNFTUniqueness(self.stored_NFT_data, self.stored_NFT_data[rndIndex])
         self.assertFalse(result)
@@ -80,14 +81,14 @@ class TestAssetTracker(unittest.TestCase):
 
 
 
-    
+
     # Helper methods
     
     def test_saveNFTdata(self):
         resultValue = self.testTracker.saveNFTdata()
         self.assertTrue(resultValue)
 
-    def get_NFT_data(self):
+    def get_NFT_data(self, newTraits):
         try:
             if path.exists(self.fileName):
                 with open(self.fileName, 'r') as file:
@@ -100,8 +101,8 @@ class TestAssetTracker(unittest.TestCase):
             # The exception was thrown due to trying to read an empty file
             # There is no data to append to, so save the first entry
             with open(self.fileName, 'w') as file:
-                    json.dump(self.newTraits, file, indent=4)
-            return self.newTraits
+                    json.dump(newTraits, file, indent=4)
+            return newTraits
 
 
 

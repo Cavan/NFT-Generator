@@ -5,7 +5,7 @@ import json as json
 from pathlib import Path
 import requests
 from helpers import *
-
+from assetTracking import AssetTracker
 
 cwd = os.getcwd()
 ASSETFOLDER = "%s\\Assets\\"%(cwd)
@@ -17,9 +17,12 @@ class DudeBro:
     def __init__(self, itr):
         self.id = itr
         self.generate_dude_bro(itr)
-        
+        self.assetTracker = AssetTracker()
     
     def generate_dude_bro(self, itr):
+
+        # Create a while loop that will check the NFT ID ...
+        # and continue until a unique value is created.
         body = generateRandomNumber(1, 20)
         face = generateRandomNumber(1, 13)
         eyes = generateRandomNumber(1, 16)
@@ -33,6 +36,25 @@ class DudeBro:
         hat = generateRandomNumber(0, 27)
         glasses = generateRandomNumber(0, 20)
         
+        # Add traits to dictionary 
+        NFT_features = [
+            {
+                "NFT_ID":self.nftID, 
+                "face":face,
+                "body":body,
+                "eyebrows":eyebrows,
+                "eyes": eyes,
+                "facialhair":facialHair,
+                "glasses":glasses,
+                "hair": hair,
+                "hat" : hat,
+                "mouth": mouth,
+                "traits_ID":None
+                
+            }]
+
+
+
         # Feature Dict
         bodyDict = createBodyDict()
         faceDict = createFaceDict()
@@ -46,6 +68,7 @@ class DudeBro:
         glassesDict = createGlassesDict()
         
         
+
         # Open Required pngs (Body, Eyes, Mouth)
         img0 = Image.open(ASSETFOLDER + "Face/" + str(face) + ".png")
         img1 = Image.open(ASSETFOLDER + "Body/" + str(body) + ".png")
@@ -84,5 +107,40 @@ class DudeBro:
         if not os.path.isdir(folder):
             os.mkdir(folder)
         
-        img0.save(folder + str(generateRandomNumber(1, 5000)) + '.png', "PNG")
-        
+        # Check if file name already exists
+        # Get complete list of files
+        # Take the length and increment by 1
+
+        # Saving file
+        print("Saving file in progress")
+        #img0.save(folder + str(generateRandomNumber(1, 5000)) + '.png', "PNG")
+
+    def get_NFT_data(self, newTraits, fileName):
+        try:
+            if os.path.exists(fileName):
+                with open(fileName, 'r') as file:
+                    previous_json = json.load(file)
+                    
+            return previous_json
+        except Exception as err:
+            exception_message = "Problem accessing file: {}".format(str(err))
+            print(exception_message)
+            # The exception was thrown due to trying to read an empty file
+            # There is no data to append to, so save the first entry
+            with open(fileName, 'w') as file:
+                    json.dump(newTraits, file, indent=4)
+            return newTraits    
+
+
+    def create_trait_id(self, newTraits):
+        # We are going to combine each trait value into ...
+        # a trait_ID, before each NFT is generated we'll check to make sure
+        # we're not producing an NFT with the same traits.
+        temp_traits_id = ''
+        trait_dict = newTraits[0]
+        for key in trait_dict:
+            if key != "NFT_ID" and key != "traits_ID":   
+                temp_traits_id += str(trait_dict[key])
+             
+        # Assign the traits id to be stored in the json file
+        return int(temp_traits_id)
