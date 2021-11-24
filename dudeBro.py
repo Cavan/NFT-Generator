@@ -16,6 +16,7 @@ class DudeBro:
     TOTAL = 1100
     def __init__(self, itr):
         self.id = itr
+        self.NFT_ID = 0
         self.nft_tracker_fileName = "nftTracking/NFT_tracking.json"
         if itr > 0 :
             self.generate_dude_bro(itr)
@@ -28,6 +29,14 @@ class DudeBro:
     def generate_dude_bro(self, itr):
         isNFT_unique = False
         storred_NFT_data = self.assetTracker.getNFTdata()
+        # Assign an NFT numeric id that will be used for the filename when saving
+        if storred_NFT_data == None:
+            self.NFT_ID = 1
+        else:
+            # find the highest id number, and increment it by 1 ...
+            # this will be the new NFT id
+            pass
+
         # Create a while loop that will check the NFT ID ...
         # and continue until a unique value is created.
         while isNFT_unique != True :
@@ -47,7 +56,7 @@ class DudeBro:
             # Add traits to dictionary 
             NFT_features = [
                 {
-                    "NFT_ID":self.nftID, 
+                    "NFT_ID":self.NFT_ID, 
                     "face":face,
                     "body":body,
                     "eyebrows":eyebrows,
@@ -58,7 +67,6 @@ class DudeBro:
                     "hat" : hat,
                     "mouth": mouth,
                     "traits_ID":None
-                    
                 }]
 
             new_NFI_trait_ID = self.create_trait_id(NFT_features)

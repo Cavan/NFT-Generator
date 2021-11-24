@@ -72,10 +72,10 @@ class AssetTracker:
             
             return None  
 
-    def saveNFTdata(self):
+    def saveNFTdata(self, fileName):
         try:
-            if path.exists(self.fileName):
-                with open(self.fileName, 'r') as file:
+            if path.exists(fileName):
+                with open(fileName, 'r') as file:
                     previous_json = json.load(file)
                     # Make sure the NFT id is unique ...
                     # and the traits_id is unique
@@ -86,7 +86,7 @@ class AssetTracker:
                     #     return
                     nfts = previous_json + self.newTraits
 
-                with open(self.fileName, 'w') as file:
+                with open(fileName, 'w') as file:
                     json.dump(nfts, file, indent=4)
             self.appLogger.log_info("Successfully saved new NFT data")        
             return True
@@ -97,7 +97,13 @@ class AssetTracker:
             self.appLogger.log_info("Attempting to write to file")
             # The exception was thrown due to trying to read an empty file
             # There is no data to append to, so save the first entry
-            with open(self.fileName, 'w') as file:
+            with open(fileName, 'w') as file:
                     json.dump(self.newTraits, file, indent=4)
             return True
 
+    # sort the NFTs and return the highest value
+    def get_max_NFT_id(self, nftData):
+        test = nftData
+        x = 0
+        return None
+        
