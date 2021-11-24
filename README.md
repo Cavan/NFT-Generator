@@ -1,14 +1,14 @@
 # Python NFT Generator
 This project was created to experiment with NFT creation using the Python programming language. 
 
-1. Write unit tests
-2. Setup logging
-3. Write asset tracker
-4. Check for uniqueness
-5. Save NFT attributes
-6. Implement OpenSea API
-7. Deploy to OpenSea Testnet
-8. Deploy to OpenSea Mainnet
+- [x] Write unit tests 
+- [x] Setup logging
+- [x] Write asset tracker
+- [x] Check for uniqueness
+- [ ] Save NFT attributes
+- [ ] Implement OpenSea API
+- [ ] Deploy to OpenSea Testnet
+- [ ] Deploy to OpenSea Mainnet
 
 ## Examples of NFTs produced by the generator
 
