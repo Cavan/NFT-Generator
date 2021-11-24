@@ -1,6 +1,7 @@
 import json
 from logging import error, exception
 from os import path
+import os as os
 from app_logging import AppLogger
 
 class AssetTracker:
@@ -11,15 +12,20 @@ class AssetTracker:
 
 
     def checkNFTUniqueness(self, current_traits, new_traits):
-        indxCounter = 0
-        # retrieve json file, and check new traits against all traits in file
-        for key in current_traits:
-            if current_traits[indxCounter]["traits_ID"] == new_traits["traits_ID"]:
-                return False
-            indxCounter += 1
-        # No match was found, so the traits are unique ...
-        # return True
-        return True
+        try:
+            indxCounter = 0
+            # retrieve json file, and check new traits against all traits in file
+            for key in current_traits:
+                if current_traits[indxCounter]["traits_ID"] == new_traits["traits_ID"]:
+                    return False
+                indxCounter += 1
+            # No match was found, so the traits are unique ...
+            # return True
+            return True
+        except Exception as err:
+            exception_message = "Problem checking NFT uniqueness, program cannot continue: {}".format(str(err))
+            self.appLogger.log_errors(exception_message)
+            raise Exception("Program cannot continue, need to fix this exception")
        
     def checkNFT_IDUniqueness(self, current_ids, new_id):
         indxCounter = 0
@@ -51,7 +57,20 @@ class AssetTracker:
         # else return false, and run again to get unique traits
         
     def getNFTdata(self):
-        pass
+        try:
+            if os.path.exists(self.fileName):
+                with open(self.fileName, 'r') as file:
+                    previous_json = json.load(file)
+            self.appLogger.log_info("Successfully retrieved NFT data")        
+            return previous_json
+        except Exception as err:
+            exception_message = "Problem accessing file: {}".format(str(err))
+            self.appLogger.log_errors(exception_message)
+            print(exception_message)
+            # The exception was thrown due to trying to read an empty file
+            # There is no data to append to, so save the first entry
+            
+            return None  
 
     def saveNFTdata(self):
         try:
@@ -69,6 +88,7 @@ class AssetTracker:
 
                 with open(self.fileName, 'w') as file:
                     json.dump(nfts, file, indent=4)
+            self.appLogger.log_info("Successfully saved new NFT data")        
             return True
         except Exception as err:
             exception_message = "Problem accessing file: {}".format(str(err))

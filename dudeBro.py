@@ -16,44 +16,55 @@ class DudeBro:
     TOTAL = 1100
     def __init__(self, itr):
         self.id = itr
-        self.generate_dude_bro(itr)
-        self.assetTracker = AssetTracker()
+        self.nft_tracker_fileName = "nftTracking/NFT_tracking.json"
+        if itr > 0 :
+            self.generate_dude_bro(itr)
+            self.assetTracker = AssetTracker()
     
-    def generate_dude_bro(self, itr):
+    @classmethod
+    def fromunittest(cls, traits_test_dict):
+        cls.dummy_traits = traits_test_dict
 
+    def generate_dude_bro(self, itr):
+        isNFT_unique = False
+        storred_NFT_data = self.assetTracker.getNFTdata()
         # Create a while loop that will check the NFT ID ...
         # and continue until a unique value is created.
-        body = generateRandomNumber(1, 20)
-        face = generateRandomNumber(1, 13)
-        eyes = generateRandomNumber(1, 16)
-        eyebrows = generateRandomNumber(1, 13)
-        mouth = generateRandomNumber(1, 12)
-        hair = generateRandomNumber(1, 21)
-        
-        # OPTIONAL - higher range equals increase randomness, less likely to align with exisiting feature
-        facialHair = generateRandomNumber(0, 3)
-        smoke = generateRandomNumber(0, 3)
-        hat = generateRandomNumber(0, 27)
-        glasses = generateRandomNumber(0, 20)
-        
-        # Add traits to dictionary 
-        NFT_features = [
-            {
-                "NFT_ID":self.nftID, 
-                "face":face,
-                "body":body,
-                "eyebrows":eyebrows,
-                "eyes": eyes,
-                "facialhair":facialHair,
-                "glasses":glasses,
-                "hair": hair,
-                "hat" : hat,
-                "mouth": mouth,
-                "traits_ID":None
-                
-            }]
+        while isNFT_unique != True :
+            body = generateRandomNumber(1, 20)
+            face = generateRandomNumber(1, 13)
+            eyes = generateRandomNumber(1, 16)
+            eyebrows = generateRandomNumber(1, 13)
+            mouth = generateRandomNumber(1, 12)
+            hair = generateRandomNumber(1, 21)
+            
+            # OPTIONAL - higher range equals increase randomness, less likely to align with exisiting feature
+            facialHair = generateRandomNumber(0, 3)
+            smoke = generateRandomNumber(0, 3)
+            hat = generateRandomNumber(0, 27)
+            glasses = generateRandomNumber(0, 20)
+            
+            # Add traits to dictionary 
+            NFT_features = [
+                {
+                    "NFT_ID":self.nftID, 
+                    "face":face,
+                    "body":body,
+                    "eyebrows":eyebrows,
+                    "eyes": eyes,
+                    "facialhair":facialHair,
+                    "glasses":glasses,
+                    "hair": hair,
+                    "hat" : hat,
+                    "mouth": mouth,
+                    "traits_ID":None
+                    
+                }]
 
-
+            new_NFI_trait_ID = self.create_trait_id(NFT_features)
+            # Assign the new trait id before checking its uniqueness
+            NFT_features[0]["traits_ID"] = new_NFI_trait_ID
+            isNFT_unique = self.assetTracker.checkNFTUniqueness(storred_NFT_data, NFT_features)
 
         # Feature Dict
         bodyDict = createBodyDict()
@@ -114,22 +125,6 @@ class DudeBro:
         # Saving file
         print("Saving file in progress")
         #img0.save(folder + str(generateRandomNumber(1, 5000)) + '.png', "PNG")
-
-    def get_NFT_data(self, newTraits, fileName):
-        try:
-            if os.path.exists(fileName):
-                with open(fileName, 'r') as file:
-                    previous_json = json.load(file)
-                    
-            return previous_json
-        except Exception as err:
-            exception_message = "Problem accessing file: {}".format(str(err))
-            print(exception_message)
-            # The exception was thrown due to trying to read an empty file
-            # There is no data to append to, so save the first entry
-            with open(fileName, 'w') as file:
-                    json.dump(newTraits, file, indent=4)
-            return newTraits    
 
 
     def create_trait_id(self, newTraits):
