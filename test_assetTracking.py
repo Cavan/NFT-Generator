@@ -9,9 +9,20 @@ class TestAssetTracker(unittest.TestCase):
     def setUp(self):
         
         self.fileName = "nftTracking/NFT_tracking_unit_tests.json"
-
+        nft_traits = []
         # Store new ID
-        self.nftID = randint(1, 5000)
+        # Open nft data
+        self.testTracker = AssetTracker(self.fileName)
+        self.stored_NFT_data = self.get_NFT_data(nft_traits)
+        if self.stored_NFT_data == None:
+            self.nftID = 1
+        else:
+            max_nft_id = self.testTracker.get_max_NFT_id(self.stored_NFT_data)
+            max_nft_id += 1
+            self.nftID = max_nft_id
+            
+
+        #self.nftID = randint(1, 5000)
         self.unique_nftID = randint(1000, 5000)
         self.unique_traitsID = randint(1000000000000, 7000000000000)
         self.testTraitsList = [
@@ -30,7 +41,7 @@ class TestAssetTracker(unittest.TestCase):
                 "traits_ID":None
                 
             }]
-        self.stored_NFT_data = self.get_NFT_data(self.testTraitsList)
+        
         
         # We are going to combine each trait value into ...
         # a trait_ID, before each NFT is generated we'll check to make sure
@@ -45,7 +56,8 @@ class TestAssetTracker(unittest.TestCase):
         self.testTraitsList[0]['traits_ID'] = int(temp_traits_id)
         #self.testTraitsList['traits_ID'] = int(temp_traits_id)
         # Create a class instance of AssetTracker        
-        self.testTracker = AssetTracker(self.testTraitsList)
+        #self.testTracker = AssetTracker(self.testTraitsList)
+        self.testTracker.set_new_traits(self.testTraitsList)
 
 
 
@@ -102,16 +114,32 @@ class TestAssetTracker(unittest.TestCase):
             if path.exists(self.fileName):
                 with open(self.fileName, 'r') as file:
                     previous_json = json.load(file)
-                    
+            else:
+                previous_json = [
+            {
+                "NFT_ID":0,
+                "face":0,
+                "body":0,
+                "eyebrows":0,
+                "eyes": 0,
+                "facialhair":0,
+                "glasses":0,
+                "hair": 0,
+                "hat" : 0,
+                "mouth": 0,
+                "smoke":0,
+                "traits_ID":None
+                
+            }]
             return previous_json
         except Exception as err:
             exception_message = "Problem accessing file: {}".format(str(err))
             print(exception_message)
             # The exception was thrown due to trying to read an empty file
             # There is no data to append to, so save the first entry
-            with open(self.fileName, 'w') as file:
-                    json.dump(newTraits, file, indent=4)
-            return newTraits
+            # with open(self.fileName, 'w') as file:
+            #         json.dump(newTraits, file, indent=4)
+            return None
 
 
 

@@ -25,7 +25,6 @@ class TestDudeBro(unittest.TestCase):
                 "mouth": randint(1, 12),
                 "smoke":randint(0, 3),
                 "traits_ID":None
-                
             }]
 
         self.dude_bro_instance = DudeBro(0)
@@ -40,7 +39,11 @@ class TestDudeBro(unittest.TestCase):
        self.testTraitsList[0]["traits_ID"] = new_trait_id
        self.assertIsNotNone(self.testTraitsList[0]["traits_ID"])
 
-
+    def test_generate_dude_bro(self):
+        iteration = 1
+        # Generate DudeBros
+        myDudeBro = DudeBro(iteration)
+        iteration = iteration + 1
 
 
 if __name__ == '__main__':

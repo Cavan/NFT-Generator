@@ -17,10 +17,11 @@ class DudeBro:
     def __init__(self, itr):
         self.id = itr
         self.NFT_ID = 0
-        self.nft_tracker_fileName = "nftTracking/NFT_tracking.json"
+        self.nft_tracker_fileName = "nftTracking/DudeBros_NFT_tracking.json"
+        self.assetTracker = AssetTracker(self.nft_tracker_fileName)
         if itr > 0 :
             self.generate_dude_bro(itr)
-            self.assetTracker = AssetTracker()
+            
     
     @classmethod
     def fromunittest(cls, traits_test_dict):
@@ -35,7 +36,9 @@ class DudeBro:
         else:
             # find the highest id number, and increment it by 1 ...
             # this will be the new NFT id
-            pass
+            max_nft_id = self.assetTracker.get_max_NFT_id(storred_NFT_data)
+            max_nft_id += 1
+            self.NFT_ID = max_nft_id
 
         # Create a while loop that will check the NFT ID ...
         # and continue until a unique value is created.
@@ -73,6 +76,12 @@ class DudeBro:
             # Assign the new trait id before checking its uniqueness
             NFT_features[0]["traits_ID"] = new_NFI_trait_ID
             isNFT_unique = self.assetTracker.checkNFTUniqueness(storred_NFT_data, NFT_features)
+
+        # Set the new traits for the asset tracker
+        self.assetTracker.set_new_traits(NFT_features)
+        # The NFT is unique so save the traits to file using the AssetTracker class
+        self.assetTracker.saveNFTdata(self.nft_tracker_fileName)
+
 
         # Feature Dict
         bodyDict = createBodyDict()
@@ -132,7 +141,7 @@ class DudeBro:
 
         # Saving file
         print("Saving file in progress")
-        #img0.save(folder + str(generateRandomNumber(1, 5000)) + '.png', "PNG")
+        img0.save(folder + 'DudeBro_' + str(self.NFT_ID) + '.png', "PNG")
 
 
     def create_trait_id(self, newTraits):
