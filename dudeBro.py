@@ -6,11 +6,13 @@ from pathlib import Path
 import requests
 from helpers import *
 from assetTracking import AssetTracker
-from brownie import (
-    network,
-    accounts,
-    config,
-)
+import sample_metadata
+
+# from brownie import (
+#     network,
+#     accounts,
+#     config,
+# )
 cwd = os.getcwd()
 ASSETFOLDER = "%s\\Assets\\"%(cwd)
 
@@ -23,6 +25,7 @@ class DudeBro:
         self.NFT_ID = 0
         self.m_data = self.generate_meta_data(self.NFT_ID) 
         self.nft_tracker_fileName = "nftTracking/DudeBros_NFT_tracking.json"
+       # self.meta_data_fileName = "nft_metadata/".format(self.)
         self.assetTracker = AssetTracker(self.nft_tracker_fileName)
         if itr > 0 :
             self.generate_dude_bro(itr)
@@ -30,7 +33,7 @@ class DudeBro:
     
     def generate_meta_data(self, token_id):
         dude_bro_metadata = sample_metadata.metadata_template
-        dude_bro_metadata["name"] = str(token_id)
+        dude_bro_metadata["name"] = ""
         dude_bro_metadata["description"] = "DudeBros is a generative art project"
         dude_bro_metadata["image"] = ''
         dude_bro_metadata["background_color"] = '0F7CB3'
@@ -83,6 +86,7 @@ class DudeBro:
                     "hair": hair,
                     "hat" : hat,
                     "mouth": mouth,
+                    "smoke": smoke,
                     "traits_ID":None
                 }]
 
@@ -103,7 +107,7 @@ class DudeBro:
         eyeDict = createEyeDict()
         eyeBrowDict = createEyebrowsDict()
         mouthDict = createMouthDict()
-        hairDict = createHatDict()
+        hairDict = createHairDict()
         facialHairDict = createFacialHairDict()
         smokeDict = createSmokeDict()
         hatDict = createHatDict()
@@ -208,7 +212,18 @@ class DudeBro:
         # Saving file
         print("Saving file in progress")
         img0.save(folder + 'DudeBro_' + str(self.NFT_ID) + '.png', "PNG")
+        # Set metadata name
+        self.m_data["name"] = "DudeBro-{}".format(str(self.NFT_ID))
+        # Write metadata
+        metaFolder = "nft_metadata/"
+        metaPath = "{}DudeBro_{}.json".format(metaFolder, str(self.NFT_ID))
+        # Make sure folder exists
+        if not os.path.isdir(metaFolder):
+            os.mkdir(metaFolder)
 
+        with open(metaPath, 'w') as f:
+            json.dump(self.m_data, f)
+        
 
     def create_trait_id(self, newTraits):
         # We are going to combine each trait value into ...
