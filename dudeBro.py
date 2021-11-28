@@ -6,7 +6,11 @@ from pathlib import Path
 import requests
 from helpers import *
 from assetTracking import AssetTracker
-
+from brownie import (
+    network,
+    accounts,
+    config,
+)
 cwd = os.getcwd()
 ASSETFOLDER = "%s\\Assets\\"%(cwd)
 
@@ -17,15 +21,25 @@ class DudeBro:
     def __init__(self, itr):
         self.id = itr
         self.NFT_ID = 0
+        self.m_data = self.generate_meta_data(self.NFT_ID) 
         self.nft_tracker_fileName = "nftTracking/DudeBros_NFT_tracking.json"
         self.assetTracker = AssetTracker(self.nft_tracker_fileName)
         if itr > 0 :
             self.generate_dude_bro(itr)
             
     
-    @classmethod
-    def fromunittest(cls, traits_test_dict):
-        cls.dummy_traits = traits_test_dict
+    def generate_meta_data(self, token_id):
+        dude_bro_metadata = sample_metadata.metadata_template
+        dude_bro_metadata["name"] = str(token_id)
+        dude_bro_metadata["description"] = "DudeBros is a generative art project"
+        dude_bro_metadata["image"] = ''
+        dude_bro_metadata["background_color"] = '0F7CB3'
+        # Image will be added with attributes after the creation of DudeBro
+        dude_bro_metadata["attributes"] = []
+        return dude_bro_metadata
+
+
+
 
     def generate_dude_bro(self, itr):
         isNFT_unique = False
@@ -44,7 +58,7 @@ class DudeBro:
         # and continue until a unique value is created.
         while isNFT_unique != True :
             body = generateRandomNumber(1, 20)
-            face = generateRandomNumber(1, 13)
+            face = generateRandomNumber(1, 6)
             eyes = generateRandomNumber(1, 16)
             eyebrows = generateRandomNumber(1, 13)
             mouth = generateRandomNumber(1, 12)
@@ -104,7 +118,40 @@ class DudeBro:
         img3 = Image.open(ASSETFOLDER + "Mouth/" + str(mouth) + ".png")
         img4 = Image.open(ASSETFOLDER + "Hair/" + str(hair) + ".png")
         img5 = Image.open(ASSETFOLDER + "Eyebrows/" + str(eyebrows) + ".png")
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Skin Shade',
+                'value': faceDict[face]
+            })
         
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Body Color',
+                'value': bodyDict[body]
+            })
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Eye Color',
+                'value': eyeDict[eyes]
+            })
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Mouth / Lips',
+                'value': mouthDict[mouth]
+            })
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Hair Color',
+                'value': hairDict[hair]
+            })
+        self.m_data['attributes'].append(
+            {
+                'trait-type':'Eyebrows',
+                'value': eyeBrowDict[eyebrows]
+            })
+
+
+
         # Paste Required PNGs
         img0.paste(img1, (0,0), img1)
         img0.paste(img2, (0,0), img2)
@@ -116,19 +163,38 @@ class DudeBro:
         if(0 < facialHair <= 3):
             img6 = Image.open(ASSETFOLDER + "FacialHair/" + str(facialHair) + ".png")
             img0.paste(img6, (0,0), img6)
+            self.m_data['attributes'].append(
+            {
+                'trait-type':'Facial Hair',
+                'value': facialHairDict[facialHair]
+            })
             
-        if (0 < smoke <= 3):
+        if (0 < smoke <= 4):
             img7 = Image.open(ASSETFOLDER + "Cigarette/" + str(smoke) + ".png")
             img0.paste(img7, (0,0), img7)
+            self.m_data['attributes'].append(
+            {
+                'trait-type':'Dirty Habit',
+                'value': smokeDict[smoke]
+            })
         
         if (0 < hat <= 27):
             img8 = Image.open(ASSETFOLDER + "Hat/" + str(hat) + ".png")
             img0.paste(img8, (0,0), img8)
+            self.m_data['attributes'].append(
+            {
+                'trait-type':'Headwear',
+                'value': hatDict[hat]
+            })
         
         if (0 < glasses <= 20):
             img9 = Image.open(ASSETFOLDER + "Glasses/" + str(glasses) + ".png")
             img0.paste(img9, (0,0), img9)
-        
+            self.m_data['attributes'].append(
+            {
+                'trait-type':'Eyewear',
+                'value': glassesDict[glasses]
+            })
         
         # Create and save
         folder = ASSETFOLDER + "DudeBros/"
