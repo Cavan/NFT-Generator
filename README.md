@@ -5,8 +5,9 @@ This project was created to experiment with NFT creation using the Python progra
 - [x] Setup logging
 - [x] Write asset tracker
 - [x] Check for uniqueness
-- [ ] Save NFT attributes
-- [ ] Implement OpenSea API
+- [x] Save NFT attributes
+- [] Create SmartContract using Chainlink - In Progress
+- [ ] Implement OpenSea API 
 - [ ] Deploy to OpenSea Testnet
 - [ ] Deploy to OpenSea Mainnet
 
