@@ -222,7 +222,7 @@ class DudeBro:
             os.mkdir(metaFolder)
 
         with open(metaPath, 'w') as f:
-            json.dump(self.m_data, f)
+            json.dump(self.m_data, f, indent=4)
         
 
     def create_trait_id(self, newTraits):

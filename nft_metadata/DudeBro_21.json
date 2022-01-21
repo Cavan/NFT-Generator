@@ -1,0 +1,44 @@
+{
+    "name": "DudeBro-21",
+    "description": "DudeBros is a generative art project",
+    "image": "",
+    "attributes": [
+        {
+            "trait-type": "Skin Shade",
+            "value": "Face Shade 1"
+        },
+        {
+            "trait-type": "Body Color",
+            "value": "Celadon Green Body"
+        },
+        {
+            "trait-type": "Eye Color",
+            "value": "Black Eyes"
+        },
+        {
+            "trait-type": "Mouth / Lips",
+            "value": "Blue Lips"
+        },
+        {
+            "trait-type": "Hair Color",
+            "value": "Steel Hair"
+        },
+        {
+            "trait-type": "Eyebrows",
+            "value": "Black Bean Eyebrows"
+        },
+        {
+            "trait-type": "Facial Hair",
+            "value": "Goatee"
+        },
+        {
+            "trait-type": "Headwear",
+            "value": "Bright Green Baseball Cap"
+        },
+        {
+            "trait-type": "Eyewear",
+            "value": "Yellow Sunglasses"
+        }
+    ],
+    "background_color": "0F7CB3"
+}

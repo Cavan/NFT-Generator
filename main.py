@@ -1,6 +1,6 @@
 from dudeBro import *
 
-TOTAL = 2500
+TOTAL = 20
 
 
 def main():
